@@ -1,0 +1,8 @@
+pandas~=2.2.0
+seaborn~=0.13.2
+matplotlib~=3.10.1
+networkx~=3.2.1
+kagglehub~=0.3.11
+numpy~=1.26.4
+statsmodels~=0.14.4
+scikit-learn~=1.6.1
