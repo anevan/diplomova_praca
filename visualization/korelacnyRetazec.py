@@ -1,4 +1,3 @@
-import datetime
 from datetime import datetime
 import networkx as nx
 import matplotlib.pyplot as plt

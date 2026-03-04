@@ -118,10 +118,10 @@ def dfs_paths(matrix, start_node, end_node):
     all_paths = []
 
     def dfs(current, visited, path, total_sum):
-        print(f"Current path: {path}, total correlation sum: {total_sum}")
+        # print(f"Current path: {path}, total correlation sum: {total_sum}")
 
-        if current == end_node:
-            print(f"*** Reached end node! Final path: {path}, total correlation: {total_sum} ***")
+        if current == end_node and len(path) > 1:
+            # print(f"*** Reached end node! Final path: {path}, total correlation: {total_sum} ***")
             all_paths.append((path.copy(), total_sum))
             return
 
@@ -139,7 +139,7 @@ def dfs_paths(matrix, start_node, end_node):
     return all_paths
 
 
-def astar_max_correlation(matrix, start, goal, threshold):
+def astar_max_correlation(matrix, start, goal):
     # Priority queue (open list): min-heap simulating max-heap using negative f and g values
     # Each element is a tuple: (-f, -g, current_node, path_so_far)
     #   f = g + h, where:
@@ -167,35 +167,29 @@ def astar_max_correlation(matrix, start, goal, threshold):
             corr = matrix.loc[current, neighbor]
 
             # Only consider significant correlations
-            if abs(corr) > threshold:
+            if corr > 0:
                 # Extend the current path
                 new_path = path + [neighbor]
                 # Update actual correlation sum (g)
-                new_g = g + corr   # trying to maximize this
+                new_g = g + corr   # maximize this
                 # Estimate potential future correlation (h) using heuristic
-                h = heuristic(matrix, neighbor, goal, new_path, threshold)
-                # h = heuristic(matrix, neighbor, goal, new_path, threshold, sigma)
+                h = heuristic(matrix, neighbor, goal, new_path)
                 # Total estimated cost (f = g + h)
                 f = new_g + h
-                # Push the new state into the queue with negated values
+                # Push the new tuple into the queue with negated values
                 heapq.heappush(queue, (-f, -new_g, neighbor, new_path))
 
     return None, 0
 
-
-def heuristic(matrix, current, goal, visited, threshold):
+"""
+Estimates the maximum achievable correlation from `current` to `goal`
+using DFS. Returns the highest possible sum of correlations along
+any acyclic path.
+"""
+def heuristic(matrix, current, goal, visited):
     def dfs(node, visited_set):
-        """
-        Estimates the maximum achievable correlation from `current` to `goal`
-        by performing a depth-first search (DFS). The heuristic returns the highest
-        possible sum of correlation coefficients along any acyclic path from
-        `current` to `goal`, excluding already visited nodes and weak correlations.
-
-        This is used as the heuristic `h(n)` in A* to guide the search.
-        """
         if node == goal:
             return 0  # No cost if already at goal
-
         # Track the best (maximum) total correlation found from this node
         max_corr_sum = float('-inf')
         for neighbor in matrix.columns:
@@ -204,8 +198,8 @@ def heuristic(matrix, current, goal, visited, threshold):
                 continue
             # Get the correlation value between `node` and `neighbor`
             corr = matrix.loc[node, neighbor]
-            # Ignore edges with correlation below the threshold
-            if abs(corr) <= threshold:
+            # Ignore edges with no correlation
+            if corr == 0:
                 continue
             # Mark the neighbor as visited for this DFS branch
             new_visited = visited_set | {neighbor}
@@ -217,7 +211,6 @@ def heuristic(matrix, current, goal, visited, threshold):
                 max_corr_sum = max(max_corr_sum, total_corr)
         # If no valid paths were found, return 0
         return max_corr_sum if max_corr_sum != float('-inf') else 0
-
     # Convert the visited path list to a set for fast lookup
     visited_set = set(visited)
     # Start DFS from the current node
@@ -243,8 +236,7 @@ def run_selected_path_finding_method(method, matrix, start, end):
             print("Greedy+DFS paths:")
             paths, scores = zip(*results)
             for path, score in results:
-                print(f"{' → '.join(path)} | Score: {round(score, 2)}")
-            print("\n")
+                print(f"{' → '.join(path)} | Sum: {round(score, 2)}")
             return list(paths), list(scores)
         else:
             print("No path found using Greedy+DFS.\n")
@@ -256,18 +248,18 @@ def run_selected_path_finding_method(method, matrix, start, end):
             print("No paths found using DFS.\n")
             return None, None
         else:
-            print("All paths (DFS):")
+            print("All DFS paths:")
             paths, scores = zip(*results)
             for path, score in results:
-                print(f"Path: {' → '.join(path)} | Score: {round(score, 2)}")
+                print(f"Path: {' → '.join(path)} | Sum: {round(score, 2)}")
             best_index = scores.index(max(scores))
-            print(f"Best path: {' → '.join(paths[best_index])} | Score: {round(scores[best_index], 2)}\n")
+            print(f"Best path: {' → '.join(paths[best_index])} | Sum: {round(scores[best_index], 2)}\n")
             return list(paths), list(scores)
 
     elif method == 'a_star':
-        path, score = astar_max_correlation(matrix, start=start, goal=end, threshold=0)
+        path, score = astar_max_correlation(matrix, start=start, goal=end)
         if path:
-            print(f"A* Path: {' → '.join(path)} | Score: {round(score, 2)}\n")
+            print(f"A* Path: {' → '.join(path)} | Sum: {round(score, 2)}\n")
             return [path], [score]
         else:
             print("No path found using A*.\n")

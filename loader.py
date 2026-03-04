@@ -9,7 +9,7 @@ def load_csv(folder='datasets'):
             if os.path.exists(folder):
                 files = [f for f in os.listdir(folder) if f.endswith('.csv')]
                 if files:
-                    print("\nAvailable datasets:")
+                    print("Available datasets:")
                     for i, f in enumerate(files, start=1):
                         print(f"{i}  {f}")
                 else:

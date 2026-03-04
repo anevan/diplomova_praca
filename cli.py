@@ -1,19 +1,22 @@
 def get_user_input_columns(columns):
-    print("\nFeed backward construction of correlation chains in multidimensional datasets")
+    print("\nFor the feed backward construction of correlation chains in multidimensional datasets "
+          "select the source and target attributes.")
     print("Available attributes:", columns)
 
     while True:
-        x = input("Select source attribute: ").strip()
+        x = input("Select the source attribute: ").strip()
         if x not in columns:
             print(f"'{x}' is not a valid attribute name. Please choose from the list.")
         else:
+            print(f"Source attribute: {x}")
             break
 
     while True:
-        y = input("Select target attribute: ").strip()
+        y = input("Select the target attribute: ").strip()
         if y not in columns:
             print(f"'{y}' is not a valid attribute name. Please choose from the list.")
         else:
+            print(f"Target attribute: {y}")
             break
 
     return x, y
@@ -37,6 +40,7 @@ def get_alpha(default=0.1):
     try:
         alpha_input = input(f"\nEnter alpha value for pruning (α ∈ ⟨0, 0.3⟩) [default={default}]: ").strip()
         if alpha_input == '':
+            print(f"No input provided. Using default: {default}")
             return default
         alpha = float(alpha_input)
         if not (0 <= alpha <= 0.3):
@@ -47,26 +51,13 @@ def get_alpha(default=0.1):
         return default
 
 
-def get_path_finding_method():
-    methods = {
-        'greedy': 'greedy',
-        'greedy+dfs': 'greedy+dfs',
-        'dfs': 'dfs',
-        'a*': 'a_star'
-    }
-    default = 'greedy'
-    prompt = f"Choose path finding method ({', '.join(methods.keys())}) [default={default}]: "
-    method = input(prompt).strip().lower().replace(' ', '')
-
-    return methods.get(method, default)
-
-
 def get_frac(default=0.3):
-    print("Regression analysis will be performed.")
+    print("\nOn the identified correlation chains regression analysis will be performed.")
     print("Please specify fraction value used for LOESS smoothing (controls smoothing degree).")
     try:
-        frac_input = input(f"Enter fraction value (e.g., 0.3 for 30%) [default={default}]: ").strip()
+        frac_input = input(f"Enter fraction value (e.g. 0.3 for 30%) [default={default}]: ").strip()
         if frac_input == '':
+            print(f"No input provided. Using default: {default}")
             return default
         frac = float(frac_input)
         if not (0 < frac < 1):
@@ -83,6 +74,7 @@ def get_max_depth(default=5):
     try:
         max_depth_input = input(f"Enter max depth (positive integer) [default={default}]: ").strip()
         if max_depth_input == '':
+            print(f"No input provided. Using default: {default}")
             return default
         max_depth = int(max_depth_input)
         if max_depth <= 0:
@@ -93,11 +85,12 @@ def get_max_depth(default=5):
         print(f"Invalid input: {e}. Using default value: {default}")
         return default
 
-def get_min_samples_split(default=5):
+def get_min_samples_split(default=2):
     print("Please specify minimum samples needed to make a split (CART).")
     try:
         split_value = input(f"Enter min_samples_split [default={default}]: ").strip()
         if split_value == "":
+            print(f"No input provided. Using default: {default}")
             return default
         split_value = int(split_value)
         if split_value < 2:
@@ -108,12 +101,13 @@ def get_min_samples_split(default=5):
         print(f"Invalid input: {e}. Using default: {default}")
         return default
 
-def get_min_samples_leaf(default=3):
+def get_min_samples_leaf(default=1):
     print("Please specify minimum samples in a leaf (CART).")
 
     try:
         leaf_value = input(f"Enter min_samples_leaf [default={default}]: ").strip()
         if leaf_value == "":
+            print(f"No input provided. Using default: {default}")
             return default
         leaf_value = int(leaf_value)
         if leaf_value <= 0:
@@ -125,11 +119,12 @@ def get_min_samples_leaf(default=3):
         return default
 
 
-def get_svr_C(default=5.0):
-    print("Please specify the regularization parameter C for SVR (controls model flexibility).")
+def get_svr_C(default=1.0):
+    print("Please specify the regularization parameter C for SVR.")
     try:
         C_input = input(f"Enter C (positive number) [default={default}]: ").strip()
         if C_input == '':
+            print(f"No input provided. Using default C: {default}")
             return default
         C_value = float(C_input)
         if C_value <= 0:
@@ -142,10 +137,11 @@ def get_svr_C(default=5.0):
 
 
 def get_svr_epsilon(default=0.1):
-    print("Please specify the epsilon parameter for SVR (defines the insensitive margin).")
+    print("Please specify the epsilon parameter for SVR.")
     try:
         epsilon_input = input(f"Enter epsilon (positive number) [default={default}]: ").strip()
         if epsilon_input == '':
+            print(f"No input provided. Using default epsilon: {default}")
             return default
         epsilon_value = float(epsilon_input)
         if epsilon_value <= 0:
@@ -159,15 +155,17 @@ def get_svr_epsilon(default=0.1):
 
 def get_svr_gamma(default='scale'):
     print("Please specify the gamma parameter for SVR (with RBF kernel).")
-    gamma_input = input(f"Enter gamma for SVR [default={default}]: ").strip()
+    gamma_input = input(f"Enter gamma (positive number, 'auto' or 'scale') [default={default}]: ").strip()
     if gamma_input == '':
+        print(f"No input provided. Using default gamma: {default}")
         return default
     if gamma_input.lower() in ['scale', 'auto']:
+        print(f"Using gamma: {gamma_input.lower()}")
         return gamma_input.lower()
     try:
         gamma_value = float(gamma_input)
         if gamma_value <= 0:
-            raise ValueError("Gamma must be a positive number.")
+            raise ValueError("Gamma must be a positive number, 'auto' or 'scale'.")
         print(f"Using gamma: {gamma_value}")
         return gamma_value
     except ValueError as e:

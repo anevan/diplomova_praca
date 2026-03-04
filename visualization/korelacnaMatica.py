@@ -8,7 +8,7 @@ def save_heatmap(matrix, file, method=None, sigma=None, alpha=None):
     # Determine if it's a pruned or full correlation matrix
     is_pruned = sigma is not None or alpha is not None
 
-    # Build the output directory path
+    # Build the visualization directory path
     parts = ["outputs", file]
     if method:
         parts.append(method.lower())

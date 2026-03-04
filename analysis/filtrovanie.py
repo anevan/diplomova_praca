@@ -1,11 +1,11 @@
 import numpy as np
+import pandas as pd
 
-
-def zero_diagonal(matrix):
+def zero_diagonal(matrix: pd.DataFrame) -> pd.DataFrame:
     mat = matrix.copy()
-    np.fill_diagonal(mat.values, 0)
-    return mat
-
+    arr = mat.to_numpy().copy() # writable numpy array
+    np.fill_diagonal(arr, 0)
+    return pd.DataFrame(arr, index=mat.index, columns=mat.columns)
 
 def apply_sigma_mask(matrix, alpha):
     abs_matrix = matrix.abs()
@@ -23,6 +23,9 @@ def modify_pruned_matrix(pruned_matrix):
     # Drop rows and columns that are entirely zero
     non_zero_rows = (pruned_matrix != 0).any(axis=1)
     non_zero_cols = (pruned_matrix != 0).any(axis=0)
-    display_pruned = pruned_matrix.loc[non_zero_rows, non_zero_cols]
-    np.fill_diagonal(display_pruned.values, 1)
+    display_pruned = pruned_matrix.loc[non_zero_rows, non_zero_cols].copy()
+    arr = display_pruned.to_numpy(copy=True)
+    np.fill_diagonal(arr, 1)
+    # transforming modified array to DataFrame
+    display_pruned.iloc[:, :] = arr
     return display_pruned
