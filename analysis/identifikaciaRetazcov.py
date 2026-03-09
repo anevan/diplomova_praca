@@ -1,23 +1,18 @@
 import heapq
 
+"""
+   At each step, it selects the unvisited attribute most strongly correlated (in absolute value)
+   with the current node, and stops when the end node is reached.
+   Note: Greedy is shortsighted. It doesn't find all paths, just the locally best.
+   So it might miss valid paths like direct edges if they're not the max at each step.
+   Parameters:
+       matrix (pd.DataFrame): Pruned symmetric correlation matrix (zero means no edge).
+       start_node (str): The target attribute.
+       end_node (str): The source attribute.
+   Returns:
+       tuple: (path as list of nodes, total correlation sum), or None if path not found.
+"""
 def greedy_correlation_path(matrix, start_node, end_node):
-    """
-       Greedy pathfinding over a correlation matrix.
-       At each step, it selects the unvisited attribute most strongly correlated (in absolute value)
-       with the current node, and stops when the end node is reached.
-
-       Note: Greedy is shortsighted. It doesn't find all paths—just the locally best.
-       So it might miss valid paths like direct edges if they're not the max at each step.
-
-       Parameters:
-           matrix (pd.DataFrame): Pruned symmetric correlation matrix (zero means no edge).
-           start_node (str): The starting attribute.
-           end_node (str): The target attribute.
-
-       Returns:
-           tuple: (path as list of nodes, total correlation sum), or None if path not found.
-       """
-
     # If start and end are the same, there is no meaningful path
     if start_node == end_node:
         return None
@@ -50,30 +45,23 @@ def greedy_correlation_path(matrix, start_node, end_node):
         if current == end_node:
             break
     if path[-1] != end_node:
-        print(f"{' → '.join(path)}")
+        print(f"{' ← '.join(path)}")
         return None
     else:
         return path, total_correlation
 
-
-def greedy_dfs_paths(matrix, start_node, end_node):
-    """
+"""
     Perform a depth-first search (DFS) that always follows the highest absolute correlation neighbors
     at each step (greedy filter). This means if multiple neighbors share the same maximum correlation,
     the function explores all of them, thus supporting multiple greedy paths from start_node to end_node.
-
-    Because this search is greedy, it may not find a path even if one exists —
-    if the path requires taking edges with lower correlations at any step, those are skipped.
-    As a result, this function only finds paths that consistently follow the strongest connections.
-
     Parameters:
         matrix (pd.DataFrame): Pruned symmetric correlation matrix.
-        start_node (str): Start attribute.
-        end_node (str): Target attribute.
-
+        start_node (str): Target attribute.
+        end_node (str): Source attribute.
     Returns:
         List of (path, total_sum) tuples, or None if no path is found.
-    """
+"""
+def greedy_dfs_paths(matrix, start_node, end_node):
     results = []  # List of tuples: (path, total_correlation)
     unfinished_paths = []
 
@@ -106,15 +94,14 @@ def greedy_dfs_paths(matrix, start_node, end_node):
     else:
         best_path, best_sum = max(unfinished_paths, key=lambda x: x[1])
         print("Best unfinished path:")
-        print(" → ".join(best_path))
+        print(" ← ".join(best_path))
         return None
 
 
+"""
+    Explores all possible paths and identifies the path with max correlation sum.
+"""
 def dfs_paths(matrix, start_node, end_node):
-    """
-    Explore all possible paths and identify the one with max total correlation.
-    """
-
     all_paths = []
 
     def dfs(current, visited, path, total_sum):
@@ -183,8 +170,7 @@ def astar_max_correlation(matrix, start, goal):
 
 """
 Estimates the maximum achievable correlation from `current` to `goal`
-using DFS. Returns the highest possible sum of correlations along
-any acyclic path.
+using DFS. Returns the highest possible sum of correlations along any acyclic path.
 """
 def heuristic(matrix, current, goal, visited):
     def dfs(node, visited_set):
@@ -222,12 +208,10 @@ def run_selected_path_finding_method(method, matrix, start, end):
         result = greedy_correlation_path(matrix, start_node=start, end_node=end)
         if result is not None:
             path, score = result
-            print(f"Greedy path: {' → '.join(path)}\n")
+            print(f"Greedy path: {' ← '.join(path)}\n")
             return [path], [score]
         else:
-            print("No path found using Greedy.\nNote: Greedy is shortsighted. "
-                  "It doesn't find all paths — just the locally best.\n"
-                  "So it might miss valid paths like direct edges if they're not the max at each step.")
+            print("No path found using Greedy.\n")
             return None, None
 
     elif method == 'greedy+dfs':
@@ -236,7 +220,7 @@ def run_selected_path_finding_method(method, matrix, start, end):
             print("Greedy+DFS paths:")
             paths, scores = zip(*results)
             for path, score in results:
-                print(f"{' → '.join(path)} | Sum: {round(score, 2)}")
+                print(f"{' ← '.join(path)} | Sum: {round(score, 2)}")
             return list(paths), list(scores)
         else:
             print("No path found using Greedy+DFS.\n")
@@ -247,19 +231,22 @@ def run_selected_path_finding_method(method, matrix, start, end):
         if not results:
             print("No paths found using DFS.\n")
             return None, None
-        else:
+
+        show_all = input("Do you want to see all DFS paths? (y/n): ").strip().lower() == 'y'
+        paths, scores = zip(*results)
+        best_index = scores.index(max(scores))
+        if show_all:
             print("All DFS paths:")
-            paths, scores = zip(*results)
             for path, score in results:
-                print(f"Path: {' → '.join(path)} | Sum: {round(score, 2)}")
-            best_index = scores.index(max(scores))
-            print(f"Best path: {' → '.join(paths[best_index])} | Sum: {round(scores[best_index], 2)}\n")
-            return list(paths), list(scores)
+                print(f"Path: {' ← '.join(path)} | Sum: {round(score, 2)}")
+            print()
+        print(f"Best path: {' ← '.join(paths[best_index])} | Sum: {round(scores[best_index], 2)}\n")
+        return list(paths), list(scores)
 
     elif method == 'a_star':
         path, score = astar_max_correlation(matrix, start=start, goal=end)
         if path:
-            print(f"A* Path: {' → '.join(path)} | Sum: {round(score, 2)}\n")
+            print(f"A* Path: {' ← '.join(path)} | Sum: {round(score, 2)}\n")
             return [path], [score]
         else:
             print("No path found using A*.\n")

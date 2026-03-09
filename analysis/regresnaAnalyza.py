@@ -1,6 +1,5 @@
-import numpy as np
 from analysis.regregresneModely import predict_loess, predict_svr, predict_cart
-from analysis.metriky import smape
+from analysis.metriky import smape, rmse, mae
 
 def multi_model_chained_predict(
         df,
@@ -50,14 +49,14 @@ def multi_model_chained_predict(
         edge = (path[i - 1], path[i])
         error_metrics[edge] = {
             "rmse": [
-                np.sqrt(np.mean((y - loess_preds) ** 2)),
-                np.sqrt(np.mean((y - svr_preds) ** 2)),
-                np.sqrt(np.mean((y - cart_preds) ** 2)),
+                rmse(y, loess_preds),
+                rmse(y, svr_preds),
+                rmse(y, cart_preds),
             ],
             "mae": [
-                np.mean(np.abs(y - loess_preds)),
-                np.mean(np.abs(y - svr_preds)),
-                np.mean(np.abs(y - cart_preds)),
+                mae(y, loess_preds),
+                mae(y, svr_preds),
+                mae(y, cart_preds),
             ],
             "smape": [
                 smape(y, loess_preds),
@@ -80,7 +79,7 @@ def multi_model_chained_predict(
 def print_error_metrics(error_metrics):
     models = ["LOESS", "SVR", "CART"]
     for edge, metrics in error_metrics.items():
-        print(f"\nError metrics for {edge[0]} → {edge[1]}")
+        print(f"\nError metrics for {edge[0]} – {edge[1]}")
         for metric_name, values in metrics.items():
             for model_name, val in zip(models, values):
                 if metric_name == 'smape':

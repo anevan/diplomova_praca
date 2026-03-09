@@ -1,24 +1,21 @@
 def get_user_input_columns(columns):
-    print("\nFor the feed backward construction of correlation chains in multidimensional datasets "
-          "select the source and target attributes.")
-    print("Available attributes:", columns)
-
+    print("\nFor the feed-backward construction of correlation chains in multidimensional datasets, "
+          "\nselect the source and target attributes from the available attributes:")
+    print(columns)
     while True:
-        x = input("Select the source attribute: ").strip()
+        x = input("Select the source attribute (počiatočný atribút): ").strip()
         if x not in columns:
             print(f"'{x}' is not a valid attribute name. Please choose from the list.")
         else:
             print(f"Source attribute: {x}")
             break
-
     while True:
-        y = input("Select the target attribute: ").strip()
+        y = input("Select the target attribute (cieľový atribút): ").strip()
         if y not in columns:
             print(f"'{y}' is not a valid attribute name. Please choose from the list.")
         else:
             print(f"Target attribute: {y}")
             break
-
     return x, y
 
 
@@ -52,7 +49,7 @@ def get_alpha(default=0.1):
 
 
 def get_frac(default=0.3):
-    print("\nOn the identified correlation chains regression analysis will be performed.")
+    print("\nRegression analysis will be performed on the identified correlation chains")
     print("Please specify fraction value used for LOESS smoothing (controls smoothing degree).")
     try:
         frac_input = input(f"Enter fraction value (e.g. 0.3 for 30%) [default={default}]: ").strip()

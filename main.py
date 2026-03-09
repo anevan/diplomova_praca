@@ -1,11 +1,13 @@
 import os
 from pprint import pprint
+import numpy as np
 import pandas as pd
 import time
-from loader import load_csv
-from analysis.regresnaAnalyza import multi_model_chained_predict, print_error_metrics
-from cli import (get_correlation_method, get_alpha, get_user_input_columns,  get_frac, get_max_depth, get_plot_palette,
-                 get_svr_C, get_svr_epsilon, get_svr_gamma, get_min_samples_leaf, get_min_samples_split)
+from nacitanieUdajov import load_csv
+from analysis.regresnaAnalyza import multi_model_chained_predict
+from pouzivatelskeRozhranie import (get_correlation_method, get_alpha, get_user_input_columns, get_frac, get_max_depth,
+                                    get_plot_palette, get_svr_C, get_svr_epsilon, get_svr_gamma, get_min_samples_leaf,
+                                    get_min_samples_split)
 from analysis.filtrovanie import zero_diagonal, apply_sigma_mask, modify_pruned_matrix
 from analysis.identifikaciaRetazcov import run_selected_path_finding_method
 from analysis.korelacnaAnalyza import compute_correlation_matrix
@@ -70,7 +72,7 @@ def main():
     # User inputs for further analysis
     columns = list(modified_pruned_matrix.columns)
     # Selected start/end attributes
-    in_col, out_col = get_user_input_columns(columns)
+    source_attr, target_attr = get_user_input_columns(columns)
     # Regression hyperparameters
     frac = get_frac()
     c = get_svr_C()
@@ -87,18 +89,20 @@ def main():
         "greedy": "greedy (chamtivé hľadanie)",
         "greedy+dfs": "greed+DFS (chamtivé hľadanie do hĺbky)",
         "dfs": "DFS (prehľadávanie do hĺbky)",
-        "a_star": "A* (A* algoritmus)"
+        "a_star": "A* (A* hľadanie)"
     }
     all_paths = []
 
     for algorithm_key, display_name in all_graph_algorithms.items():
+        # feed-backward construction of correlation chains
+        # from target to source attr
         print(f"\n=== Using {display_name} graph algorithm ===")
         start = time.time()
         paths, scores = run_selected_path_finding_method(
             method=algorithm_key,
             matrix=pruned_matrix.abs().round(4),
-            start=in_col,
-            end=out_col)
+            start=target_attr,
+            end=source_attr)
         end = time.time()
         print("Graph algorithm execution completed in", end - start, "s.")
 
@@ -119,7 +123,7 @@ def main():
         start = time.time()
         _, error_metrics = multi_model_chained_predict(
             df,
-            path=best_path,
+            path=best_path[::-1], # reversed order - from source to target attr
             frac=frac,
             c=c,
             epsilon=epsilon,
@@ -129,19 +133,18 @@ def main():
             min_samples_split = min_samples_split)
         end = time.time()
         print("Chained prediction execution completed in", end - start, "s.")
-        # print_error_metrics(error_metrics)
 
         # Save correlation chain visualization
         timestamp = save_correlation_chains(
             matrix=matrix,
-            paths=[(best_path, best_score)],
+            paths=[(best_path[::-1], best_score)],
             file_name=file,
             method=corr_method,
             alpha=alpha,
             sigma=sigma,
             path_finding_method=algorithm_key,
-            start_node=in_col,
-            end_node=out_col,
+            start_node=source_attr,
+            end_node=target_attr,
             error_metrics=error_metrics,
             palette=palette
         )
@@ -153,7 +156,7 @@ def main():
             corr_method,
             f"alpha_{alpha:.2f}",
             algorithm_key,
-            f"{in_col}_to_{out_col}")
+            f"{source_attr}_to_{target_attr}")
         os.makedirs(save_folder, exist_ok=True)
         new_filename = f"log_{timestamp}.txt"
         full_path = os.path.join(save_folder, new_filename)
@@ -161,9 +164,9 @@ def main():
             f.write(f"Selected CSV file/dataset: {file}.csv\n")
             f.write(f"Selected correlation coefficient: {corr_method}\n")
             f.write(f"Used for pruning\n\tAlpha: {alpha}\n\tSigma: {sigma}\n")
-            f.write(f"Source attribute: {in_col}\nTarget attribute: {out_col}\n")
+            f.write(f"Source attribute: {source_attr}\nTarget attribute: {target_attr}\n")
             f.write(f"Graph algorithm: {algorithm_key}\n")
-            f.write(f"Identified path: {best_path}\nPath's correlation sum: {best_score}\n")
+            f.write(f"Identified path: {best_path[::-1]}\nPath's correlation sum: {best_score}\n")
             f.write(f"LOESS fraction value: {frac}\n")
             f.write(f"SVR C parameter: {c}\n")
             f.write(f"SVR epsilon parameter: {epsilon}\n")
@@ -172,13 +175,15 @@ def main():
             f.write(f"Minimum samples needed to make a split (CART): {min_samples_split}\n")
             f.write(f"Minimum samples in a leaf (CART): {min_samples_leaf}\n")
             f.write("Error metrics\n")
-            pprint(error_metrics, stream=f)
+            pprint(error_metrics, stream=f, sort_dicts=False)
         print(f"Log file was saved to: {full_path}\n")
 
         # all correlation chains
+        last_key = next(reversed(error_metrics))
         all_paths.append({
             "method": algorithm_key,
-            "best_path": best_path,
+            "best_path": best_path[::-1],
+            "avrg_last_smape": np.mean(error_metrics[last_key]['smape']),
         })
 
     analyze_correlation_chains(all_paths,

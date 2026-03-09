@@ -3,7 +3,7 @@ from scipy.stats import pearsonr
 import numpy as np
 import pandas as pd
 from analysis.regregresneModely import predict_loess,predict_cart, predict_svr
-from analysis.metriky import smape
+from analysis.metriky import smape as sMAPE
 
 def analyze_correlation_chains(
         corr_chains,
@@ -23,6 +23,7 @@ def analyze_correlation_chains(
     for chain_info in corr_chains:
         pathf_method = chain_info["method"]
         correlation_chain = chain_info["best_path"]
+        avrg_last_smape = chain_info["avrg_last_smape"]
         first = correlation_chain[0]
         last = correlation_chain[-1]
 
@@ -46,19 +47,20 @@ def analyze_correlation_chains(
             min_samples_leaf
         )
         smape_mean = np.mean([
-            smape(y, loess_preds),
-            smape(y, svr_preds),
-            smape(y, cart_preds)
+            sMAPE(y, loess_preds),
+            sMAPE(y, svr_preds),
+            sMAPE(y, cart_preds)
         ])
 
         # nový riadok
         rows.append({
             "dataset": dataset_name,
             "grafovy_algoritmus": pathf_method,
-            "vstup_vystup": f"{first}_{last}",
+            "pociatocny_cielovy": f"{first}_{last}",
             "priama_korelacia": priama_korelacia,
             "nepriama_korelacia": nepriama_korelacia,
-            "sMAPE": smape_mean
+            "sMAPE": smape_mean,
+            "sMAPE(y)": avrg_last_smape
         })
 
     df_corr_chain_analysis = pd.DataFrame(rows)
@@ -87,23 +89,24 @@ def analyze_correlation_chains(
         if do_corr == "y":
             #  GLOBAL CORRELATION (all datasets together)
             if len(df_full) >= 2:
-                x_direct_corr = df_full["priama_korelacia"].values
-                x_indirect_corr = df_full["nepriama_korelacia"].values
-                y_smape = df_full["sMAPE"].values
+                direct_corr = df_full["priama_korelacia"].values
+                indirect_corr = df_full["nepriama_korelacia"].values
+                smape = df_full["sMAPE"].values
+                smape_y = df_full["sMAPE(y)"].values
 
                 # Direct correlation vs sMAPE
-                if np.all(x_direct_corr == x_direct_corr[0]) or np.all(y_smape == y_smape[0]):
+                if np.all(direct_corr == direct_corr[0]) or np.all(smape == smape[0]):
                     print("Cannot compute correlation between priama_korelacia and sMAPE: one of the inputs is constant.")
                 else:
-                    corr_direct, p_direct = pearsonr(x_direct_corr, y_smape)
+                    corr_direct, p_direct = pearsonr(direct_corr, smape)
                     print(f"Direct correlation vs sMAPE: r = {corr_direct:.4f}, p-value = {p_direct:.4f}")
 
                 # Indirect correlation vs sMAPE
-                if np.all(x_indirect_corr == x_indirect_corr[0]) or np.all(y_smape == y_smape[0]):
-                    print("Cannot compute correlation between nepriama_korelacia and sMAPE: one of the inputs is constant.")
+                if np.all(indirect_corr == indirect_corr[0]) or np.all(smape_y == smape_y[0]):
+                    print("Cannot compute correlation between nepriama_korelacia and sMAPE(y): one of the inputs is constant.")
                 else:
-                    corr_indirect, p_indirect = pearsonr(x_indirect_corr, y_smape)
-                    print(f"Indirect correlation vs sMAPE: r = {corr_indirect:.4f}, p-value = {p_indirect:.4f}")
+                    corr_indirect, p_indirect = pearsonr(indirect_corr, smape_y)
+                    print(f"Indirect correlation vs sMAPE(y): r = {corr_indirect:.4f}, p-value = {p_indirect:.4f}")
             else:
                 print("\nCannot compute correlation: CSV has fewer than 2 rows.")
 
@@ -119,23 +122,24 @@ def analyze_correlation_chains(
                     print("  Not enough rows to compute correlation.")
                     continue
 
-                x_direct_corr = df_dataset["priama_korelacia"].values
-                x_indirect_corr = df_dataset["nepriama_korelacia"].values
-                y_smape = df_dataset["sMAPE"].values
+                direct_corr = df_dataset["priama_korelacia"].values
+                indirect_corr = df_dataset["nepriama_korelacia"].values
+                smape = df_dataset["sMAPE"].values
+                smape_y = df_full["sMAPE(y)"].values
 
                 # Direct correlation
-                if np.all(x_direct_corr == x_direct_corr[0]) or np.all(y_smape == y_smape[0]):
+                if np.all(direct_corr == direct_corr[0]) or np.all(smape == smape[0]):
                     print("  Cannot compute direct correlation: one input is constant.")
                 else:
-                    corr_direct, p_direct = pearsonr(x_direct_corr, y_smape)
+                    corr_direct, p_direct = pearsonr(direct_corr, smape)
                     print(f"  Direct correlation vs sMAPE: r = {corr_direct:.4f}, p-value = {p_direct:.4f}")
 
                 # Indirect correlation
-                if np.all(x_indirect_corr == x_indirect_corr[0]) or np.all(y_smape == y_smape[0]):
+                if np.all(indirect_corr == indirect_corr[0]) or np.all(smape_y == smape_y[0]):
                     print("  Cannot compute indirect correlation: one input is constant.")
                 else:
-                    corr_indirect, p_indirect = pearsonr(x_indirect_corr, y_smape)
-                    print(f"  Indirect correlation vs sMAPE: r = {corr_indirect:.4f}, p-value = {p_indirect:.4f}")
+                    corr_indirect, p_indirect = pearsonr(indirect_corr, smape_y)
+                    print(f"  Indirect correlation vs sMAPE(y): r = {corr_indirect:.4f}, p-value = {p_indirect:.4f}")
         else:
             print("Analysis of the relationship between correlation in correlation chains and sMAPE was skipped.")
     else:
