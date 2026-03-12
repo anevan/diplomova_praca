@@ -1,0 +1,45 @@
+Selected CSV file/dataset: appliances-energy-prediction.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.1
+	Sigma: 0.7342198800716727
+Source attribute: RH_1
+Target attribute: RH_9
+Graph algorithm: greedy
+Identified path: ['RH_1', 'RH_4', 'RH_7', 'RH_9']
+Path's correlation sum: 2.6281
+LOESS fraction value: 0.1
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: auto
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 3
+Error metrics
+{('RH_1', 'RH_4'): {'rmse': [1.9552473262553136,
+                             1.928987168248363,
+                             1.837412289965067],
+                    'mae': [1.3775303167641986,
+                            1.3576096200980068,
+                            1.3232604981368745],
+                    'smape': [3.4873376971844268,
+                              3.4411797115094656,
+                              3.356054170220783]},
+ ('RH_4', 'RH_7'): {'rmse': [2.9893015130745635,
+                             2.9936154611701293,
+                             2.854079265524189],
+                    'mae': [2.2120647052695603,
+                            2.200761971067435,
+                            2.1660835064814186],
+                    'smape': [6.318269226306159,
+                              6.287440202981427,
+                              6.193431125847926]},
+ ('RH_7', 'RH_9'): {'rmse': [2.587584844401799,
+                             2.5943690870865255,
+                             2.4951563857111667],
+                    'mae': [2.0107138514590814,
+                            1.9941694179972176,
+                            1.9624105316838603],
+                    'smape': [4.85920191837074,
+                              4.8212187795192065,
+                              4.749658949071736]}}

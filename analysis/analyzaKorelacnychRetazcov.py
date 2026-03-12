@@ -70,11 +70,16 @@ def analyze_correlation_chains(
     # Ask user to append to CSV
     answer = input("\nDo you want to append these rows to the CSV file? (y/n): ").strip().lower()
     if answer == "y":
-        if os.path.exists(filename):
-            df_corr_chain_analysis.to_csv(filename, mode='a', header=False, index=False)
-        else:
-            df_corr_chain_analysis.to_csv(filename, mode='w', header=True, index=False)
-        print(f"Rows successfully saved to: {filename}")
+        while True:
+            try:
+                if os.path.exists(filename):
+                    df_corr_chain_analysis.to_csv(filename, mode='a', header=False, index=False)
+                else:
+                    df_corr_chain_analysis.to_csv(filename, mode='w', header=True, index=False)
+                print(f"Rows successfully saved to: {filename}")
+                break
+            except PermissionError:
+                input(f"Permission denied for '{filename}'. Close the file if it's open, then press Enter to retry...")
     else:
         print("Rows were not saved.")
 
@@ -99,14 +104,14 @@ def analyze_correlation_chains(
                     print("Cannot compute correlation between priama_korelacia and sMAPE: one of the inputs is constant.")
                 else:
                     corr_direct, p_direct = pearsonr(direct_corr, smape)
-                    print(f"Direct correlation vs sMAPE: r = {corr_direct:.4f}, p-value = {p_direct:.4f}")
+                    print(f"Direct correlation vs sMAPE: r = {corr_direct:.4f}, p-value = {p_direct:.16f}")
 
                 # Indirect correlation vs sMAPE
                 if np.all(indirect_corr == indirect_corr[0]) or np.all(smape_y == smape_y[0]):
                     print("Cannot compute correlation between nepriama_korelacia and sMAPE(y): one of the inputs is constant.")
                 else:
                     corr_indirect, p_indirect = pearsonr(indirect_corr, smape_y)
-                    print(f"Indirect correlation vs sMAPE(y): r = {corr_indirect:.4f}, p-value = {p_indirect:.4f}")
+                    print(f"Indirect correlation vs sMAPE(y): r = {corr_indirect:.4f}, p-value = {p_indirect:.16f}")
             else:
                 print("\nCannot compute correlation: CSV has fewer than 2 rows.")
 
@@ -125,21 +130,21 @@ def analyze_correlation_chains(
                 direct_corr = df_dataset["priama_korelacia"].values
                 indirect_corr = df_dataset["nepriama_korelacia"].values
                 smape = df_dataset["sMAPE"].values
-                smape_y = df_full["sMAPE(y)"].values
+                smape_y = df_dataset["sMAPE(y)"].values
 
                 # Direct correlation
                 if np.all(direct_corr == direct_corr[0]) or np.all(smape == smape[0]):
                     print("  Cannot compute direct correlation: one input is constant.")
                 else:
                     corr_direct, p_direct = pearsonr(direct_corr, smape)
-                    print(f"  Direct correlation vs sMAPE: r = {corr_direct:.4f}, p-value = {p_direct:.4f}")
+                    print(f"  Direct correlation vs sMAPE: r = {corr_direct:.4f}, p-value = {p_direct:.16f}")
 
                 # Indirect correlation
                 if np.all(indirect_corr == indirect_corr[0]) or np.all(smape_y == smape_y[0]):
                     print("  Cannot compute indirect correlation: one input is constant.")
                 else:
                     corr_indirect, p_indirect = pearsonr(indirect_corr, smape_y)
-                    print(f"  Indirect correlation vs sMAPE(y): r = {corr_indirect:.4f}, p-value = {p_indirect:.4f}")
+                    print(f"  Indirect correlation vs sMAPE(y): r = {corr_indirect:.4f}, p-value = {p_indirect:.16f}")
         else:
             print("Analysis of the relationship between correlation in correlation chains and sMAPE was skipped.")
     else:

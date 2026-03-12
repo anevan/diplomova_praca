@@ -1,0 +1,54 @@
+Selected CSV file/dataset: Heart_Disease_processed_Cleveland.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.3765141696768315
+Source attribute: age
+Target attribute: num
+Graph algorithm: dfs
+Identified path: ['age', 'thalach', 'slope', 'oldpeak', 'num']
+Path's correlation sum: 1.8852
+LOESS fraction value: 0.5
+SVR C parameter: 5.0
+SVR epsilon parameter: 0.05
+SVR gamma parameter: scale
+Max depth (CART): 5
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('age', 'thalach'): {'rmse': [21.036683964818724,
+                               21.38710831164695,
+                               19.988350799656914],
+                      'mae': [16.68730988206924,
+                              16.64948587469697,
+                              16.186981881180753],
+                      'smape': [11.549625852936424,
+                                11.522359291711904,
+                                11.230715135104017]},
+ ('thalach', 'slope'): {'rmse': [0.6035782033550634,
+                                 0.66750193509799,
+                                 0.5914685823805645],
+                        'mae': [0.5357061060636945,
+                                0.48084616524493023,
+                                0.5169430599298273],
+                        'smape': [34.35426670401384,
+                                  30.386346647376616,
+                                  33.12599521463259]},
+ ('slope', 'oldpeak'): {'rmse': [1.1403797319744777,
+                                 1.1879952671817635,
+                                 1.1019417575086965],
+                        'mae': [0.8624184422331803,
+                                0.8401543738790637,
+                                0.8629793475212711],
+                        'smape': [112.67469261961512,
+                                  124.382212684936,
+                                  107.10672393627259]},
+ ('oldpeak', 'num'): {'rmse': [1.209450528742654,
+                               1.2593931556430893,
+                               1.18764121887453],
+                      'mae': [0.9002355110888649,
+                              0.8517365986217346,
+                              0.9786645888906862],
+                      'smape': [144.28358995274905,
+                                153.95841842290562,
+                                137.5020905498531]}}

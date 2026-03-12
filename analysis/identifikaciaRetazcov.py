@@ -5,15 +5,10 @@ import heapq
    with the current node, and stops when the end node is reached.
    Note: Greedy is shortsighted. It doesn't find all paths, just the locally best.
    So it might miss valid paths like direct edges if they're not the max at each step.
-   Parameters:
-       matrix (pd.DataFrame): Pruned symmetric correlation matrix (zero means no edge).
-       start_node (str): The target attribute.
-       end_node (str): The source attribute.
    Returns:
        tuple: (path as list of nodes, total correlation sum), or None if path not found.
 """
 def greedy_correlation_path(matrix, start_node, end_node):
-    # If start and end are the same, there is no meaningful path
     if start_node == end_node:
         return None
 
@@ -54,12 +49,6 @@ def greedy_correlation_path(matrix, start_node, end_node):
     Perform a depth-first search (DFS) that always follows the highest absolute correlation neighbors
     at each step (greedy filter). This means if multiple neighbors share the same maximum correlation,
     the function explores all of them, thus supporting multiple greedy paths from start_node to end_node.
-    Parameters:
-        matrix (pd.DataFrame): Pruned symmetric correlation matrix.
-        start_node (str): Target attribute.
-        end_node (str): Source attribute.
-    Returns:
-        List of (path, total_sum) tuples, or None if no path is found.
 """
 def greedy_dfs_paths(matrix, start_node, end_node):
     results = []  # List of tuples: (path, total_correlation)

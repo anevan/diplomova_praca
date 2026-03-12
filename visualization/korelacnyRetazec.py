@@ -66,7 +66,7 @@ def plot_correlation_chain_graph(matrix, path, score=None, corr_method=None, alp
     if sigma is not None:
         details.append(f"σ = {sigma:.4f}")
     if path_finding_method:
-        details.append(f"Path finding method: {path_finding_method}")
+        details.append(f"Graph algorithm: {path_finding_method}")
     # if score is not None:
     #     details.append(f"Correlation sum: {score:.2f}")
 

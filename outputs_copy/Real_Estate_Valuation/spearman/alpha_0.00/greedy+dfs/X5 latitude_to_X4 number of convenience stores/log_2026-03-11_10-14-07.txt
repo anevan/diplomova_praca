@@ -1,0 +1,45 @@
+Selected CSV file/dataset: Real_Estate_Valuation.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.4841185203547825
+Source attribute: X5 latitude
+Target attribute: X4 number of convenience stores
+Graph algorithm: greedy+dfs
+Identified path: ['X5 latitude', 'Y house price of unit area', 'X3 distance to the nearest MRT station', 'X4 number of convenience stores']
+Path's correlation sum: 2.0425000000000004
+LOESS fraction value: 0.3
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: auto
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 3
+Error metrics
+{('X5 latitude', 'Y house price of unit area'): {'rmse': [10.506863098651785,
+                                                          11.992211977482395,
+                                                          6.538892086084893],
+                                                 'mae': [7.325366081439109,
+                                                         9.231529466378953,
+                                                         4.459264072015788],
+                                                 'smape': [19.814624970562935,
+                                                           25.66729234959082,
+                                                           11.775890372575718]},
+ ('Y house price of unit area', 'X3 distance to the nearest MRT station'): {'rmse': [812.4799181549375,
+                                                                                     915.1023882838704,
+                                                                                     486.0881190693944],
+                                                                            'mae': [514.7321146158799,
+                                                                                    510.5591022734775,
+                                                                                    266.15557410608415],
+                                                                            'smape': [54.950839931494514,
+                                                                                      49.7966748627054,
+                                                                                      34.071440984675036]},
+ ('X3 distance to the nearest MRT station', 'X4 number of convenience stores'): {'rmse': [2.3789888249412576,
+                                                                                          1.0583037040438028,
+                                                                                          1.8245352432711157],
+                                                                                 'mae': [1.8641253087185992,
+                                                                                         0.3883216271678267,
+                                                                                         1.2590238739787807],
+                                                                                 'smape': [66.47447376269031,
+                                                                                           40.80603898419964,
+                                                                                           46.55254787234864]}}

@@ -1,0 +1,72 @@
+Selected CSV file/dataset: abalone.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.8685488793745304
+Source attribute: length
+Target attribute: whole-weight
+Graph algorithm: dfs
+Identified path: ['length', 'diameter', 'shell-weight', 'height', 'viscera-weight', 'shucked-weight', 'whole-weight']
+Path's correlation sum: 5.6838999999999995
+LOESS fraction value: 0.3
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: scale
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('length', 'diameter'): {'rmse': [3.196643604008976,
+                                   3.1975264295791512,
+                                   3.1366931059159278],
+                          'mae': [2.291699900953983,
+                                  2.28769227217571,
+                                  2.2848135983290865],
+                          'smape': [2.8876147267346317,
+                                    2.8804369741147107,
+                                    2.8745298221620463]},
+ ('diameter', 'shell-weight'): {'rmse': [10.50370282699134,
+                                         10.487821115060276,
+                                         10.243415337891376],
+                                'mae': [6.61737764964647,
+                                        6.558174514133288,
+                                        6.61275894171348],
+                                'smape': [15.428145590457095,
+                                          13.654131697562812,
+                                          13.904645263202836]},
+ ('shell-weight', 'height'): {'rmse': [4.708337577348749,
+                                       4.705801779026196,
+                                       4.6311572856302385],
+                              'mae': [2.5762009399655224,
+                                      2.570497534836901,
+                                      2.5710196851685367],
+                              'smape': [9.454334744230406,
+                                        9.406477556358169,
+                                        9.364165408819511]},
+ ('height', 'viscera-weight'): {'rmse': [7.336054305028345,
+                                         7.34258500292732,
+                                         7.218769899871468],
+                                'mae': [5.103162784361101,
+                                        5.078316429273085,
+                                        5.057913133057691],
+                                'smape': [16.390047261374217,
+                                          15.164651511957652,
+                                          15.15283240813905]},
+ ('viscera-weight', 'shucked-weight'): {'rmse': [15.024395530055546,
+                                                 14.984245654819839,
+                                                 14.647510163399275],
+                                        'mae': [9.995423082374892,
+                                                9.939984093112033,
+                                                9.973150493834217],
+                                        'smape': [15.704689782255677,
+                                                  14.406872174683825,
+                                                  14.608929669705454]},
+ ('shucked-weight', 'whole-weight'): {'rmse': [25.59498712454229,
+                                               25.583354918397664,
+                                               25.226193536077826],
+                                      'mae': [17.182904446227564,
+                                              17.126151492816753,
+                                              17.09677765184669],
+                                      'smape': [11.75405463280532,
+                                                10.765175764409825,
+                                                10.684136413252366]}}

@@ -1,0 +1,27 @@
+Selected CSV file/dataset: abalone.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.8685488793745304
+Source attribute: whole-weight
+Target attribute: shucked-weight
+Graph algorithm: greedy
+Identified path: ['whole-weight', 'shucked-weight']
+Path's correlation sum: 0.9771
+LOESS fraction value: 0.3
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: scale
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('whole-weight', 'shucked-weight'): {'rmse': [10.882633244983223,
+                                               10.85157948267171,
+                                               8.788590076179165],
+                                      'mae': [7.164773802447062,
+                                              7.147232418788435,
+                                              5.778542427902391],
+                                      'smape': [10.088273496568249,
+                                                9.974035535164507,
+                                                8.31172742396772]}}

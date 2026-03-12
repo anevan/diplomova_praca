@@ -1,0 +1,27 @@
+Selected CSV file/dataset: Heart_Disease_processed_Cleveland.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.3765141696768315
+Source attribute: cp
+Target attribute: num
+Graph algorithm: greedy+dfs
+Identified path: ['cp', 'num']
+Path's correlation sum: 0.4869
+LOESS fraction value: 0.5
+SVR C parameter: 5.0
+SVR epsilon parameter: 0.05
+SVR gamma parameter: scale
+Max depth (CART): 5
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('cp', 'num'): {'rmse': [1.0997732237673061,
+                          1.1500325447116724,
+                          1.0677725733004289],
+                 'mae': [0.7566743484916042,
+                         0.7351361083211312,
+                         0.8340863766187876],
+                 'smape': [145.4474664762415,
+                           149.26924768856242,
+                           137.8523741723382]}}

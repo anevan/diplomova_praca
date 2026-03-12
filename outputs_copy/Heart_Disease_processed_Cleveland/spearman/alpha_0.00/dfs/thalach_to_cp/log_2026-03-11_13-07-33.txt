@@ -1,0 +1,63 @@
+Selected CSV file/dataset: Heart_Disease_processed_Cleveland.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.3765141696768315
+Source attribute: thalach
+Target attribute: cp
+Graph algorithm: dfs
+Identified path: ['thalach', 'slope', 'oldpeak', 'num', 'exang', 'cp']
+Path's correlation sum: 2.361
+LOESS fraction value: 0.5
+SVR C parameter: 5.0
+SVR epsilon parameter: 0.05
+SVR gamma parameter: scale
+Max depth (CART): 5
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('thalach', 'slope'): {'rmse': [0.5692658468862709,
+                                 0.5943134542569766,
+                                 0.5099929806559423],
+                        'mae': [0.41530257195979275,
+                                0.36884060181511824,
+                                0.39311175290670025],
+                        'smape': [26.40375897271622,
+                                  22.88130464577401,
+                                  25.214215235353976]},
+ ('slope', 'oldpeak'): {'rmse': [1.086325452934663,
+                                 1.1089102456229483,
+                                 1.021204567796801],
+                        'mae': [0.797641557341085,
+                                0.7741587411724343,
+                                0.7945522327484767],
+                        'smape': [112.99750480154165,
+                                  127.09749945548057,
+                                  106.81909510318172]},
+ ('oldpeak', 'num'): {'rmse': [1.128659369617644,
+                               1.2012391451049749,
+                               1.1066889448879387],
+                      'mae': [0.8199300903381559,
+                              0.7856953143155683,
+                              0.8798418209415724],
+                      'smape': [145.61902340844836,
+                                156.14675534040023,
+                                135.70567223206862]},
+ ('num', 'exang'): {'rmse': [0.42872872151910596,
+                             0.4887178984050171,
+                             0.42948077313565386],
+                    'mae': [0.34909411343810387,
+                            0.3004435578443857,
+                            0.36890746898639787],
+                    'smape': [162.48995616444756,
+                              155.35355416738895,
+                              160.1280786758854]},
+ ('exang', 'cp'): {'rmse': [0.9183190963095708,
+                            0.967678996204904,
+                            0.894019979072078],
+                   'mae': [0.692437302212918,
+                           0.6518860826128241,
+                           0.7328792801198025],
+                   'smape': [24.755599162397644,
+                             23.494611253028165,
+                             26.00204109276319]}}

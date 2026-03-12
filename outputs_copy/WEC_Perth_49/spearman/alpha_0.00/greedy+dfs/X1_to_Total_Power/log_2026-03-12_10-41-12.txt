@@ -1,0 +1,45 @@
+Selected CSV file/dataset: WEC_Perth_49.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.5776590083492538
+Source attribute: X1
+Target attribute: Total_Power
+Graph algorithm: greedy+dfs
+Identified path: ['X1', 'Power1', 'qW', 'Total_Power']
+Path's correlation sum: 2.2847999999999997
+LOESS fraction value: 0.1
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.001
+SVR gamma parameter: auto
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 3
+Error metrics
+{('X1', 'Power1'): {'rmse': [5563.1346525893405,
+                             5492.977531780948,
+                             5298.591136270821],
+                    'mae': [4027.4058137327324,
+                            3826.195355283025,
+                            3802.240811286011],
+                    'smape': [6.79635443569938,
+                              6.409024662994028,
+                              6.353122404414664]},
+ ('Power1', 'qW'): {'rmse': [0.026247694413196788,
+                             0.021282626372616156,
+                             0.0205565381624996],
+                    'mae': [0.018404571867214486,
+                            0.01524765848378549,
+                            0.016175010037952974],
+                    'smape': [2.2067117916888503,
+                              1.8354242881696907,
+                              1.9452707627888544]},
+ ('qW', 'Total_Power'): {'rmse': [102459.30042168495,
+                                  121984.78378628576,
+                                  96544.62606007117],
+                         'mae': [75215.3585774996,
+                                 103624.15240065515,
+                                 75950.92842519819],
+                         'smape': [1.917209372242746,
+                                   2.6347011883311806,
+                                   1.9337705476850944]}}

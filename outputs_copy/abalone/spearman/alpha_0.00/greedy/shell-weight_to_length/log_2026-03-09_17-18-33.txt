@@ -1,0 +1,63 @@
+Selected CSV file/dataset: abalone.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.0
+	Sigma: 0.8685488793745304
+Source attribute: shell-weight
+Target attribute: length
+Graph algorithm: greedy
+Identified path: ['shell-weight', 'viscera-weight', 'shucked-weight', 'whole-weight', 'diameter', 'length']
+Path's correlation sum: 4.8174
+LOESS fraction value: 0.3
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: scale
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('shell-weight', 'viscera-weight'): {'rmse': [8.793703784052054,
+                                               8.69353385688412,
+                                               7.829592889640712],
+                                      'mae': [5.9316391320539985,
+                                              5.880289735254594,
+                                              5.278962626935896],
+                                      'smape': [16.696034519316463,
+                                                16.654261622365922,
+                                                15.158874802535808]},
+ ('viscera-weight', 'shucked-weight'): {'rmse': [20.213389431836163,
+                                                 20.15753810177952,
+                                                 18.022866245449805],
+                                        'mae': [13.686414276490057,
+                                                13.641741726753775,
+                                                12.281797631868985],
+                                        'smape': [19.122160654118904,
+                                                  18.94168999521138,
+                                                  17.438630055353833]},
+ ('shucked-weight', 'whole-weight'): {'rmse': [27.711332190046875,
+                                               28.245121272762304,
+                                               25.623968423618052],
+                                      'mae': [18.308078773946892,
+                                              18.46129057211728,
+                                              16.927889277207942],
+                                      'smape': [10.965935438315293,
+                                                11.1480319884922,
+                                                10.185728478341352]},
+ ('whole-weight', 'diameter'): {'rmse': [5.139027022752562,
+                                         5.073370085787165,
+                                         4.830046292946996],
+                                'mae': [3.650817422616875,
+                                        3.5449631373258006,
+                                        3.4147638671356786],
+                                'smape': [4.710948243209548,
+                                          4.444393441550427,
+                                          4.187951589076276]},
+ ('diameter', 'length'): {'rmse': [6.533407916512844,
+                                   6.478292300677786,
+                                   6.124118076697438],
+                          'mae': [4.793056625362906,
+                                  4.690472156951712,
+                                  4.458573602654345],
+                          'smape': [4.726826969942216,
+                                    4.501594687437158,
+                                    4.272281296029227]}}

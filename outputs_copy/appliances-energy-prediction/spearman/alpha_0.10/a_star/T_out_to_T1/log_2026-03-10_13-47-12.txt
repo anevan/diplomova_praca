@@ -1,0 +1,54 @@
+Selected CSV file/dataset: appliances-energy-prediction.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.1
+	Sigma: 0.7342198800716727
+Source attribute: T_out
+Target attribute: T1
+Graph algorithm: a_star
+Identified path: ['T_out', 'Tdewpoint', 'T6', 'T2', 'T1']
+Path's correlation sum: 3.152
+LOESS fraction value: 0.1
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: auto
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 3
+Error metrics
+{('T_out', 'Tdewpoint'): {'rmse': [2.4702510346658446,
+                                   2.4728492090913785,
+                                   2.3952285567335134],
+                          'mae': [1.8404499483304617,
+                                  1.806938017784723,
+                                  1.8267007181625734],
+                          'smape': [59.43918461091713,
+                                    58.05149514313833,
+                                    61.29071398913468]},
+ ('Tdewpoint', 'T6'): {'rmse': [1.6580824169430863,
+                                1.9108891452230377,
+                                1.5065742751076177],
+                       'mae': [1.090407138157262,
+                               1.1770609409977566,
+                               1.045606301142892],
+                       'smape': [22.805542119621926,
+                                 23.06075806093618,
+                                 22.048192332934928]},
+ ('T6', 'T2'): {'rmse': [1.296946493590626,
+                         1.3419249430852007,
+                         1.2617681616598373],
+                'mae': [0.9909610906158302,
+                        1.002068186569248,
+                        0.9682693523958331],
+                'smape': [4.8624672156388025,
+                          4.917202614853103,
+                          4.770606384411456]},
+ ('T2', 'T1'): {'rmse': [1.1592745671606197,
+                         1.1821234315072993,
+                         1.1388817541231515],
+                'mae': [0.8878326318185071,
+                        0.900359286861825,
+                        0.8729133750860585],
+                'smape': [4.127511086728474,
+                          4.185155872082405,
+                          4.063723609584355]}}

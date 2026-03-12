@@ -1,0 +1,36 @@
+Selected CSV file/dataset: Real_Estate_Valuation.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.1
+	Sigma: 0.5841185203547825
+Source attribute: X3 distance to the nearest MRT station
+Target attribute: Y house price of unit area
+Graph algorithm: dfs
+Identified path: ['X3 distance to the nearest MRT station', 'X4 number of convenience stores', 'Y house price of unit area']
+Path's correlation sum: 1.3054999999999999
+LOESS fraction value: 0.3
+SVR C parameter: 100.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: auto
+Max depth (CART): 10
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 3
+Error metrics
+{('X3 distance to the nearest MRT station', 'X4 number of convenience stores'): {'rmse': [2.0492645763427797,
+                                                                                          0.21481466749253572,
+                                                                                          1.2206170321341627],
+                                                                                 'mae': [1.4750416367121044,
+                                                                                         0.11520116980155368,
+                                                                                         0.7298105276366146],
+                                                                                 'smape': [62.830814475126914,
+                                                                                           35.23553827690824,
+                                                                                           30.42252053884027]},
+ ('X4 number of convenience stores', 'Y house price of unit area'): {'rmse': [9.06893390009925,
+                                                                              10.8382290557524,
+                                                                              8.73439657302682],
+                                                                     'mae': [6.174028332744468,
+                                                                             7.490115854811431,
+                                                                             6.098495509863657],
+                                                                     'smape': [16.681232974748717,
+                                                                               20.918572673454392,
+                                                                               17.287256608423135]}}
