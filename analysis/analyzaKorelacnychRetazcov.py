@@ -149,4 +149,3 @@ def analyze_correlation_chains(
             print("Analysis of the relationship between correlation in correlation chains and sMAPE was skipped.")
     else:
         print(f"\nCreate {filename} for further analysis.")
-    return
