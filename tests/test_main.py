@@ -37,7 +37,7 @@ matplotlib.use('Agg') # to prevent plots from opening during tests
         '3',  # max depth (CART)
         '2',  # min samples to split (CART)
         '1',  # min samples in leaf (CART)
-        '3',  # plot palette
+        '4',  # plot palette
         'n',  # DFS: list all chains
         'n',  # append CSV
         'n'   # compute correlation
