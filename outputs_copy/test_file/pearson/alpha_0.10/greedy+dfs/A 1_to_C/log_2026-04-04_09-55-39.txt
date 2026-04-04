@@ -1,0 +1,24 @@
+Selected CSV file/dataset: test_file.csv
+Selected correlation coefficient: pearson
+Used for pruning
+	Alpha: 0.1
+	Sigma: 0.9333333333333332
+Source attribute: A 1
+Target attribute: C
+Graph algorithm: greedy+dfs
+Identified path: ['A 1', 'B', 'C']
+Path's correlation sum: 2.0
+LOESS fraction value: 0.3
+SVR C parameter: 1.0
+SVR epsilon parameter: 0.1
+SVR gamma parameter: scale
+Max depth (CART): 5
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('A 1', 'B'): {'rmse': [0.0, 0.08164965801278769, 0.0],
+                'mae': [0.0, 0.06666666660135927, 0.0],
+                'smape': [0.0, 2.4698981143115324, 0.0]},
+ ('B', 'C'): {'rmse': [0.0, 0.08164965801278778, 0.0],
+              'mae': [0.0, 0.06666666660135934, 0.0],
+              'smape': [0.0, 4.304546673340587, 0.0]}}

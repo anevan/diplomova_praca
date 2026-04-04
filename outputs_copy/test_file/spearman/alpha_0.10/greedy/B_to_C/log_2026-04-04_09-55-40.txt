@@ -1,0 +1,24 @@
+Selected CSV file/dataset: test_file.csv
+Selected correlation coefficient: spearman
+Used for pruning
+	Alpha: 0.1
+	Sigma: 0.9333333333333332
+Source attribute: B
+Target attribute: C
+Graph algorithm: greedy
+Identified path: ['B', 'A 1', 'C']
+Path's correlation sum: 2.0
+LOESS fraction value: 0.5
+SVR C parameter: 1.0
+SVR epsilon parameter: 0.05
+SVR gamma parameter: auto
+Max depth (CART): 3
+Minimum samples needed to make a split (CART): 2
+Minimum samples in a leaf (CART): 1
+Error metrics
+{('B', 'A 1'): {'rmse': [0.0, 0.04082482868441831, 0.0],
+                'mae': [0.0, 0.0333333330377877, 0.0],
+                'smape': [0.0, 2.186240330724332, 0.0]},
+ ('A 1', 'C'): {'rmse': [0.0, 0.040824828525887855, 0.0],
+                'mae': [0.0, 0.03333333290834813, 0.0],
+                'smape': [0.0, 2.1862403223704736, 0.0]}}

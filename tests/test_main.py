@@ -11,7 +11,7 @@ matplotlib.use('Agg') # to prevent plots from opening during tests
         'n',  # histograms
         'pearson',  # correlation method
         '0.1',  # alpha
-        'A','C',  # source/target
+        'A 1','C',  # source/target
         '0.3',  # frac
         '1.0',  # C
         '0.1',  # epsilon
@@ -50,7 +50,7 @@ matplotlib.use('Agg') # to prevent plots from opening during tests
         'X', # incorrect source
         'C', # correct source
         'D',  # incorrect target
-        'A', # correct target
+        'A 1', # correct target
         '2',  # LOESS fraction
         '-1',  # SVR C
         '-1',  # SVR epsilon
@@ -67,7 +67,7 @@ matplotlib.use('Agg') # to prevent plots from opening during tests
 def test_main_pipeline(side_effects):
     import main
     main.load_csv = lambda: (pd.DataFrame({
-        "A":[1,2,3],
+        "A 1":[1,2,3],
         "B":[2,3,4],
         "C":[3,2,1]
     }), "test_file")
