@@ -97,17 +97,16 @@ def plot_correlation_chain_graph(matrix, path, score=None, error_metrics=None, c
     fig_width = (node_count + 1) * horizontal_spacing
     fig, ax = plt.subplots(figsize=(fig_width, 8))
     pos = {node: ((i + 1) * horizontal_spacing, y_offset) for i, node in enumerate(path)}
-
     # DRAW EDGES
     nx.draw_networkx_edges(g, pos, width=1.5, edge_color="black", ax=ax)
     edge_labels = nx.get_edge_attributes(g, "label")
     # EDGE LABEL COLOR ADDED
-    for (x, y), label in edge_labels.items():
-        label_color = g[x][y]['color']  # red if positive, blue if negative
+    for (a, b), label in edge_labels.items():
+        label_color = g[a][b]['color']  # red if positive, blue if negative
         nx.draw_networkx_edge_labels(
             g,
             pos,
-            edge_labels={(x, y): label},
+            edge_labels={(a, b): label},
             font_color=label_color,
             font_size=20,
             label_pos=0.5,
@@ -115,12 +114,12 @@ def plot_correlation_chain_graph(matrix, path, score=None, error_metrics=None, c
             ax=ax
         )
     # ADD (MULTI-LINE) NODES USING matplotlib's ax.annotate() instead of nx.draw_networkx_nodes()
-    for node, (x, y) in pos.items():
+    for node, (a, b) in pos.items():
         # Split node label into multiple lines if it has spaces
         node_label = "\n".join(str(node).split(" "))
         ax.annotate(
             node_label,
-            xy=(x, y),
+            xy=(a, b),
             xytext=(0, 0),
             textcoords='offset points',
             ha='center',
@@ -190,7 +189,6 @@ def add_error_metrics_to_plot(fig, ax, pos, path, error_metrics, palette):
     width_per_edge = max(0.03, min(0.15, 0.3 / len(g_edges)))
     inset_width = max(0.7, max(0.35, len(g_edges) * width_per_edge))
     inset_left = 0.5 - inset_width / 2
-
     # sMAPE above 100? for y-axis scaling
     above_100 = any(
         val > 100
@@ -208,16 +206,13 @@ def add_error_metrics_to_plot(fig, ax, pos, path, error_metrics, palette):
     inset_ax.tick_params(axis='x', labelsize=14)
     inset_ax.spines['top'].set_visible(False)
     inset_ax.spines['right'].set_visible(False)
-
     # x positions for edges
     x = list(range(1, len(g_edges) + 1))
-
     # color palettes
     color_palette = sns.color_palette("PiYG", 10)
     blue_palette = sns.color_palette("Blues")
     pastel_palette = sns.color_palette("pastel")
     pastel_palette1 = sns.color_palette("Pastel1")
-
     palette_map = {
         "meh": [None, None, None],  # default matplotlib colors
         "pastel-red": [pastel_palette[0], pastel_palette1[0], pastel_palette[2]],  # blue, red, green
