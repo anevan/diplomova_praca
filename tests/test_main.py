@@ -26,7 +26,7 @@ matplotlib.use('Agg') # to prevent plots from opening during tests
     ],
     [
         'y',  # cv
-        'y',  # histograms
+        'n',  # histograms
         'spearman',  # correlation method
         '1',  # alpha
         'B', 'C',  # source / target attributes
