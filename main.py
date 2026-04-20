@@ -8,10 +8,10 @@ from analysis.regresnaAnalyza import multi_model_chained_predict
 from pouzivatelskeRozhranie import (get_correlation_method, get_alpha, get_user_input_columns, get_frac, get_max_depth,
                                     get_plot_palette, get_svr_C, get_svr_epsilon, get_svr_gamma, get_min_samples_leaf,
                                     get_min_samples_split)
-from analysis.filtrovanie import zero_diagonal, apply_sigma_mask, modify_pruned_matrix
-from analysis.identifikaciaRetazcov import run_selected_path_finding_method
-from analysis.korelacnaAnalyza import compute_correlation_matrix
-from analysis.analyzaKorelacnychRetazcov import analyze_correlation_chains
+from analysis.vypocetAFiltrovanieKorelacnejMatice import (compute_correlation_matrix, zero_diagonal, apply_sigma_mask,
+                                                          modify_pruned_matrix)
+from analysis.budovanieRetazcov import run_selected_path_finding_method
+from analysis.analyzaVztahuKorelaciaSMAPE import run_correlation_smape_analysis
 from visualization.korelacnaMatica import save_heatmap
 from visualization.korelacnyRetazec import save_correlation_chains
 from analysis.uvodnaAnalyza import cv_table, plot_histograms
@@ -186,18 +186,18 @@ def main():
             "avrg_last_smape": np.mean(error_metrics[last_key]['smape']),
         })
 
-    analyze_correlation_chains(all_paths,
-                               matrix,
-                               df,
-                               file,
-                               frac=frac,
-                               c=c,
-                               epsilon=epsilon,
-                               gamma=gamma,
-                               max_depth=max_depth,
-                               min_samples_leaf=min_samples_leaf,
-                               min_samples_split=min_samples_split
-                               )
+    run_correlation_smape_analysis(all_paths,
+                                   matrix,
+                                   df,
+                                   file,
+                                   frac=frac,
+                                   c=c,
+                                   epsilon=epsilon,
+                                   gamma=gamma,
+                                   max_depth=max_depth,
+                                   min_samples_leaf=min_samples_leaf,
+                                   min_samples_split=min_samples_split
+                                   )
 
 if __name__ == "__main__":
     main()

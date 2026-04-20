@@ -5,7 +5,7 @@ import pandas as pd
 from analysis.regregresneModely import predict_loess,predict_cart, predict_svr
 from analysis.metriky import smape as sMAPE
 
-def analyze_correlation_chains(
+def run_correlation_smape_analysis(
         corr_chains,
         matrix,
         df,
